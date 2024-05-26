@@ -71,6 +71,26 @@ export const linkFields: Field[] = [
     label: 'Open in new tab',
     type: 'checkbox',
   },
+  {
+    type: 'row',
+    fields: [
+      {
+        name: 'umamiEvent',
+        type: 'text',
+        admin: {
+          width: '50%',
+        },
+      },
+      {
+        name: 'umamiEventId',
+        label: 'Umami Event ID',
+        type: 'text',
+        admin: {
+          width: '50%',
+        },
+      },
+    ],
+  },
 ];
 
 export const linkArray: Field = {

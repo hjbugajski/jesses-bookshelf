@@ -9,6 +9,7 @@ import {
   PayloadBlockLinksInternal,
 } from '@/lib/types/payload';
 import { cn } from '@/lib/utils/cn';
+import { slugify } from '@/lib/utils/slugify';
 
 type ExternalLinkProps = PayloadBlockLinksExternal['links'][0];
 type InternalLinkProps = PayloadBlockLinksInternal['links'][0];
@@ -20,11 +21,18 @@ interface LinkProps extends HTMLAttributes<HTMLUListElement> {
 const internalHref = ({ anchor, relationship: { slug } }: InternalLinkProps) =>
   `${slug === '/home' ? '/' : slug}${anchor ? `#${anchor}` : ''}`;
 
-const linkProps = (link: ExternalLinkProps | InternalLinkProps) => ({
-  href: link.type === 'external' ? link.url : internalHref(link),
-  ...(link.newTab ? { target: '_blank' } : {}),
-  ...(link.type === 'external' ? { rel: link.rel.join(' ') } : {}),
-});
+const linkProps = (link: ExternalLinkProps | InternalLinkProps) => {
+  const href = link.type === 'external' ? link.url : internalHref(link);
+
+  return {
+    href,
+    ...(link.newTab ? { target: '_blank' } : {}),
+    ...(link.type === 'external' ? { rel: link.rel.join(' ') } : {}),
+    'data-umami-event': link.umamiEvent ?? 'Link',
+    'data-umami-event-id': link.umamiEventId ?? slugify(link.text),
+    'data-umami-event-url': href,
+  };
+};
 
 export const Links = forwardRef<HTMLUListElement, LinkProps>(
   ({ className, block: { links }, ...props }, ref) => (

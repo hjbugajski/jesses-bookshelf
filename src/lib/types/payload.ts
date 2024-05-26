@@ -67,6 +67,8 @@ export interface PayloadBlockLinksExternal {
     url: string;
     rel: ('noreferrer' | 'nofollow')[];
     newTab?: boolean | null;
+    umamiEvent?: string | null;
+    umamiEventId?: string | null;
     id: string;
   }[];
   id: string;
@@ -83,6 +85,8 @@ export interface PayloadBlockLinksInternal {
     relationship: PayloadPage;
     anchor?: string | null;
     newTab?: boolean | null;
+    umamiEvent?: string | null;
+    umamiEventId?: string | null;
     id: string;
   }[];
   id: string;

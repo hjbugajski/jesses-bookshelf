@@ -6,6 +6,25 @@
  * and re-run `payload generate:types` to regenerate this file.
  */
 
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FieldLinkArray".
+ */
+export type FieldLinkArray = {
+  text: string;
+  subtext: string;
+  icon: 'gift' | 'instagram' | 'link' | 'mail' | 'open-book' | 'shop' | 'tiktok';
+  type: 'internal' | 'external';
+  relationship?: (string | null) | Page;
+  anchor?: string | null;
+  url?: string | null;
+  rel?: ('noreferrer' | 'nofollow')[] | null;
+  newTab?: boolean | null;
+  umamiEvent?: string | null;
+  umamiEventId?: string | null;
+  id?: string | null;
+}[];
+
 export interface Config {
   collections: {
     media: Media;
@@ -37,6 +56,8 @@ export interface Media {
   filesize?: number | null;
   width?: number | null;
   height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
   sizes?: {
     thumbnail?: {
       url?: string | null;
@@ -144,18 +165,7 @@ export interface BlockHeader {
  * via the `definition` "BlockLinks".
  */
 export interface BlockLinks {
-  links: {
-    text: string;
-    subtext: string;
-    icon: 'gift' | 'instagram' | 'link' | 'mail' | 'open-book' | 'shop' | 'tiktok';
-    type: 'internal' | 'external';
-    relationship?: (string | null) | Page;
-    anchor?: string | null;
-    url?: string | null;
-    rel?: ('noreferrer' | 'nofollow')[] | null;
-    newTab?: boolean | null;
-    id?: string | null;
-  }[];
+  links: FieldLinkArray;
   id?: string | null;
   blockName?: string | null;
   blockType: 'links';
