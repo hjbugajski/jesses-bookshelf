@@ -1,4 +1,4 @@
-import { Field } from 'payload/types';
+import { Field } from 'payload';
 
 import { getRowLabel } from '@/payload/components/row-label/get-row-label';
 

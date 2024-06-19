@@ -1,4 +1,4 @@
-import { CollectionAfterChangeHook } from 'payload/types';
+import { CollectionAfterChangeHook } from 'payload';
 import sharp from 'sharp';
 
 import { Media } from '@/payload/payload-types';
