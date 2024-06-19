@@ -14,6 +14,9 @@ importers:
       '@payloadcms/db-mongodb':
         specifier: 3.0.0-beta.52
         version: 3.0.0-beta.52(@aws-sdk/client-sso-oidc@3.600.0)(payload@3.0.0-beta.52(@swc/core@1.6.3(@swc/helpers@0.5.11))(@swc/types@0.1.8)(graphql@16.8.2)(typescript@5.4.5))
+      '@payloadcms/email-resend':
+        specifier: 3.0.0-beta.52
+        version: 3.0.0-beta.52(payload@3.0.0-beta.52(@swc/core@1.6.3(@swc/helpers@0.5.11))(@swc/types@0.1.8)(graphql@16.8.2)(typescript@5.4.5))
       '@payloadcms/next':
         specifier: 3.0.0-beta.52
         version: 3.0.0-beta.52(graphql@16.8.2)(monaco-editor@0.38.0)(next@15.0.0-rc.0(react-dom@19.0.0-rc-f994737d14-20240522(react@19.0.0-rc-f994737d14-20240522))(react@19.0.0-rc-f994737d14-20240522)(sass@1.77.4))(payload@3.0.0-beta.52(@swc/core@1.6.3(@swc/helpers@0.5.11))(@swc/types@0.1.8)(graphql@16.8.2)(typescript@5.4.5))(react-dom@19.0.0-rc-f994737d14-20240522(react@19.0.0-rc-f994737d14-20240522))(react@19.0.0-rc-f994737d14-20240522)(types-react@19.0.0-beta.2)(typescript@5.4.5)
@@ -1543,6 +1546,15 @@ packages:
       {
         integrity: sha512-mWnneiweA97TAG/If0H+BBnCcGlWYa/i4WS8NoEbiaZwR0pIC1Qr881R5kad4UOoArXEX+/NiZWQcj7w212VyA==,
       }
+    peerDependencies:
+      payload: 3.0.0-beta.52
+
+  '@payloadcms/email-resend@3.0.0-beta.52':
+    resolution:
+      {
+        integrity: sha512-ohkCJtNzEiOk7Rgr4LUsdADBxEf77s1LPDllby+SW3CF2dwItQbWwhb6gfKgdYDCyyihyjApmpijK/SSxi1Xzw==,
+      }
+    engines: { node: ^18.20.2 || >=20.9.0 }
     peerDependencies:
       payload: 3.0.0-beta.52
 
@@ -8491,6 +8503,10 @@ snapshots:
       - '@aws-sdk/client-sso-oidc'
       - aws-crt
       - supports-color
+
+  '@payloadcms/email-resend@3.0.0-beta.52(payload@3.0.0-beta.52(@swc/core@1.6.3(@swc/helpers@0.5.11))(@swc/types@0.1.8)(graphql@16.8.2)(typescript@5.4.5))':
+    dependencies:
+      payload: 3.0.0-beta.52(@swc/core@1.6.3(@swc/helpers@0.5.11))(@swc/types@0.1.8)(graphql@16.8.2)(typescript@5.4.5)
 
   '@payloadcms/graphql@3.0.0-beta.52(graphql@16.8.2)(payload@3.0.0-beta.52(@swc/core@1.6.3(@swc/helpers@0.5.11))(@swc/types@0.1.8)(graphql@16.8.2)(typescript@5.4.5))(typescript@5.4.5)':
     dependencies:

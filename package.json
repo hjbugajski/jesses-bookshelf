@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@payloadcms/db-mongodb": "3.0.0-beta.52",
+    "@payloadcms/email-resend": "3.0.0-beta.52",
     "@payloadcms/next": "3.0.0-beta.52",
     "@payloadcms/richtext-lexical": "3.0.0-beta.52",
     "@payloadcms/storage-s3": "3.0.0-beta.52",

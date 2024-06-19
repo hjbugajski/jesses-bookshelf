@@ -3,6 +3,8 @@ import { z } from 'zod';
 
 export const env = createEnv({
   server: {
+    DEFAULT_FROM_ADDRESS: z.string().min(1),
+    DEFAULT_FROM_NAME: z.string().min(1),
     DOMAIN: z.string().min(1),
     DOMAINS: z.string().min(1),
     MONGODB_DATABASE: z.string().min(1),
@@ -14,9 +16,12 @@ export const env = createEnv({
     R2_BUCKET: z.string().min(1),
     R2_ENDPOINT: z.string().min(1),
     R2_SECRET_ACCESS_KEY: z.string().min(1),
+    RESEND_API_KEY: z.string().min(1),
     SERVER_URL: z.string().min(1),
   },
   runtimeEnv: {
+    DEFAULT_FROM_ADDRESS: process.env.DEFAULT_FROM_ADDRESS,
+    DEFAULT_FROM_NAME: process.env.DEFAULT_FROM_NAME,
     DOMAIN: process.env.DOMAIN,
     DOMAINS: process.env.DOMAINS,
     MONGODB_DATABASE: process.env.MONGODB_DATABASE,
@@ -28,6 +33,7 @@ export const env = createEnv({
     R2_BUCKET: process.env.R2_BUCKET,
     R2_ENDPOINT: process.env.R2_ENDPOINT,
     R2_SECRET_ACCESS_KEY: process.env.R2_SECRET_ACCESS_KEY,
+    RESEND_API_KEY: process.env.RESEND_API_KEY,
     SERVER_URL: process.env.SERVER_URL,
   },
 });
