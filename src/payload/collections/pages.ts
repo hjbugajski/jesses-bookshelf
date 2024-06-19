@@ -1,5 +1,5 @@
 import { BlocksFeature, lexicalEditor } from '@payloadcms/richtext-lexical';
-import type { CollectionConfig, FieldHook } from 'payload/types';
+import type { CollectionConfig, FieldHook } from 'payload';
 
 import { slugify } from '@/lib/utils/slugify';
 import { Role, hasRole, hasRoleOrPublished } from '@/payload/access';

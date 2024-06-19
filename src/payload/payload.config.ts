@@ -2,9 +2,10 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
+import { resendAdapter } from '@payloadcms/email-resend';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import { s3Storage } from '@payloadcms/storage-s3';
-import { buildConfig } from 'payload/config';
+import { buildConfig } from 'payload';
 import sharp from 'sharp';
 
 import { env } from '@/env/server';
@@ -30,6 +31,11 @@ export default buildConfig({
     },
   }),
   editor: lexicalEditor({}),
+  email: resendAdapter({
+    defaultFromAddress: env.DEFAULT_FROM_ADDRESS,
+    defaultFromName: env.DEFAULT_FROM_NAME,
+    apiKey: env.RESEND_API_KEY,
+  }),
   plugins: [
     s3Storage({
       collections: {

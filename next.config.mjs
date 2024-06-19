@@ -5,6 +5,7 @@ import createJiti from 'jiti';
 
 const jiti = createJiti(fileURLToPath(import.meta.url));
 
+jiti('./src/env/client.ts');
 jiti('./src/env/server.ts');
 
 const production = process.env.NODE_ENV === 'production';
@@ -15,7 +16,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: production ? 'https' : 'http',
-        hostname: production ? 'jessesbookshelf.com' : 'localhost',
+        hostname: production ? process.env.DOMAIN : 'localhost',
         pathname: '/api/media/**',
       },
     ],

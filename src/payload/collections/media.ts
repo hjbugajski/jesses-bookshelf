@@ -1,4 +1,4 @@
-import { CollectionConfig } from 'payload/types';
+import { CollectionConfig } from 'payload';
 
 import { Role, hasRole } from '@/payload/access';
 import { useDataUrl } from '@/payload/hooks/use-data-url';

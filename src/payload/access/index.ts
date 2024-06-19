@@ -1,4 +1,4 @@
-import { Access, FieldAccess } from 'payload/types';
+import { Access, FieldAccess } from 'payload';
 
 export const Role = {
   Admin: 'admin',
