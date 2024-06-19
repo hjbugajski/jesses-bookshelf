@@ -3,6 +3,7 @@ import { z } from 'zod';
 
 export const env = createEnv({
   server: {
+    DOMAIN: z.string().min(1),
     DOMAINS: z.string().min(1),
     MONGODB_DATABASE: z.string().min(1),
     MONGODB_URL: z.string().min(1),
@@ -16,6 +17,7 @@ export const env = createEnv({
     SERVER_URL: z.string().min(1),
   },
   runtimeEnv: {
+    DOMAIN: process.env.DOMAIN,
     DOMAINS: process.env.DOMAINS,
     MONGODB_DATABASE: process.env.MONGODB_DATABASE,
     MONGODB_URL: process.env.MONGODB_URL,
