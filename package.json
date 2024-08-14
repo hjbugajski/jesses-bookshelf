@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
     "i:dev": "infisical run pnpm dev",
+    "dev:turbo": "cross-env NODE_OPTIONS=--no-deprecation next dev --turbo",
+    "i:dev:turbo": "infisical run pnpm dev:turbo",
     "devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev",
     "i:devsafe": "infisical run pnpm devsafe",
     "build": "cross-env NODE_OPTIONS=--no-deprecation next build",
@@ -13,10 +15,11 @@
     "i:payload": "infisical run pnpm payload",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "i:start": "infisical run pnpm start",
+    "generate:types": "infisical run pnpm payload generate:types -- --use-tsx",
+    "generate:importmap": "infisical run pnpm payload generate:importmap -- --use-tsx",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
-    "generate:types": "payload generate:types",
-    "eslint": "eslint --ext .js,.jsx,.ts,.tsx . --ignore-path .gitignore",
-    "eslint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx . --ignore-path .gitignore",
+    "eslint": "eslint --ext .js,.jsx,.ts,.tsx .",
+    "eslint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
     "prettier": "prettier --check --ignore-unknown .",
     "prettier:fix": "prettier --write --ignore-unknown .",
     "stylelint": "stylelint '**/*.css' --ignore-path .gitignore",
@@ -24,29 +27,29 @@
   },
   "packageManager": "pnpm@9.7.0",
   "dependencies": {
-    "@payloadcms/db-mongodb": "3.0.0-beta.52",
-    "@payloadcms/email-resend": "3.0.0-beta.52",
-    "@payloadcms/next": "3.0.0-beta.52",
-    "@payloadcms/richtext-lexical": "3.0.0-beta.52",
-    "@payloadcms/storage-s3": "3.0.0-beta.52",
-    "@payloadcms/ui": "3.0.0-beta.52",
-    "@t3-oss/env-nextjs": "^0.10.1",
+    "@payloadcms/db-mongodb": "3.0.0-beta.80",
+    "@payloadcms/email-resend": "3.0.0-beta.80",
+    "@payloadcms/next": "3.0.0-beta.80",
+    "@payloadcms/richtext-lexical": "3.0.0-beta.80",
+    "@payloadcms/storage-s3": "3.0.0-beta.80",
+    "@payloadcms/ui": "3.0.0-beta.80",
+    "@t3-oss/env-nextjs": "^0.11.0",
     "clsx": "^2.1.1",
     "cross-env": "^7.0.3",
-    "iconoir-react": "^7.7.0",
-    "jiti": "^1.21.0",
-    "next": "15.0.0-rc.0",
-    "payload": "3.0.0-beta.52",
-    "react": "19.0.0-rc-f994737d14-20240522",
-    "react-dom": "19.0.0-rc-f994737d14-20240522",
+    "iconoir-react": "^7.8.0",
+    "jiti": "^1.21.6",
+    "next": "15.0.0-canary.104",
+    "payload": "3.0.0-beta.80",
+    "react": "^19.0.0-rc-06d0b89e-20240801",
+    "react-dom": "^19.0.0-rc-06d0b89e-20240801",
     "sharp": "^0.33.4",
-    "tailwind-merge": "^2.3.0",
+    "tailwind-merge": "^2.5.2",
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/node": "^20",
-    "@types/react": "npm:types-react@19.0.0-beta.2",
-    "@types/react-dom": "npm:types-react-dom@19.0.0-beta.2",
+    "@types/react": "npm:types-react@19.0.0-rc.0",
+    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.0",
     "@typescript-eslint/eslint-plugin": "^8.1.0",
     "@typescript-eslint/parser": "^8.1.0",
     "eslint": "^8",
@@ -62,17 +65,18 @@
     "stylelint": "^16.8.1",
     "stylelint-config-clean-order": "^6.1.0",
     "stylelint-config-standard": "^36.0.1",
-    "tailwindcss": "^3.4.3",
+    "tailwindcss": "^3.4.10",
+    "tsx": "^4.17.0",
     "typescript": "^5"
   },
   "pnpm": {
     "overrides": {
-      "@types/react": "npm:types-react@19.0.0-beta.2",
-      "@types/react-dom": "npm:types-react-dom@19.0.0-beta.2"
+      "@types/react": "npm:types-react@19.0.0-rc.0",
+      "@types/react-dom": "npm:types-react-dom@19.0.0-rc.0"
     }
   },
   "overrides": {
-    "@types/react": "npm:types-react@19.0.0-beta.2",
-    "@types/react-dom": "npm:types-react-dom@19.0.0-beta.2"
+    "@types/react": "npm:types-react@19.0.0-rc.0",
+    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.0"
   }
 }

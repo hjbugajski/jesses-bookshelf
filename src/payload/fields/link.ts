@@ -1,7 +1,5 @@
 import { Field } from 'payload';
 
-import { getRowLabel } from '@/payload/components/row-label/get-row-label';
-
 export const linkFields: Field[] = [
   {
     name: 'text',
@@ -99,7 +97,14 @@ export const linkArray: Field = {
   required: true,
   admin: {
     components: {
-      RowLabel: () => getRowLabel('text', 'Link'),
+      RowLabel: {
+        path: '@/payload/components/row-label.tsx',
+        exportName: 'RowLabel',
+        clientProps: {
+          path: 'text',
+          fallback: 'Link',
+        },
+      },
     },
   },
   interfaceName: 'FieldLinkArray',
