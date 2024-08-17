@@ -35,6 +35,3 @@ jobs:
 
       - name: Stylelint
         run: pnpm stylelint
-
-      - name: Next lint
-        run: pnpm lint

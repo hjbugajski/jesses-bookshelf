@@ -18,6 +18,7 @@
     "generate:types": "infisical run pnpm payload generate:types -- --use-tsx",
     "generate:importmap": "infisical run pnpm payload generate:importmap -- --use-tsx",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
+    "lint:all": "pnpm prettier && pnpm eslint && pnpm stylelint",
     "eslint": "eslint --ext .js,.jsx,.ts,.tsx .",
     "eslint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
     "prettier": "prettier --check --ignore-unknown .",
