@@ -9,6 +9,7 @@ jiti('./src/env/client.ts');
 jiti('./src/env/server.ts');
 
 const production = process.env.NODE_ENV === 'production';
+const domain = process.env.VERCEL_ENV === 'preview' ? process.env.VERCEL_URL : process.env.DOMAIN;
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -16,7 +17,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: production ? 'https' : 'http',
-        hostname: production ? process.env.DOMAIN : 'localhost',
+        hostname: production ? domain : 'localhost',
         pathname: '/api/media/**',
       },
     ],

@@ -1,7 +1,5 @@
 import { Block } from 'payload';
 
-import { Media } from '@/payload/collections/media';
-
 export const Header: Block = {
   slug: 'header',
   interfaceName: 'BlockHeader',
@@ -14,7 +12,7 @@ export const Header: Block = {
     {
       name: 'image',
       type: 'relationship',
-      relationTo: Media.slug,
+      relationTo: 'media',
       required: true,
     },
   ],
