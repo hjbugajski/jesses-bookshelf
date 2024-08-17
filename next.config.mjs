@@ -9,8 +9,7 @@ jiti('./src/env/client.ts');
 jiti('./src/env/server.ts');
 
 const production = process.env.NODE_ENV === 'production';
-const domain =
-  process.env.VERCEL_ENV === 'preview' ? process.env.VERCEL_BRANCH_URL : process.env.DOMAIN;
+const domain = process.env.VERCEL_ENV === 'preview' ? process.env.VERCEL_URL : process.env.DOMAIN;
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
