@@ -2,7 +2,7 @@
 /* DO NOT MODIFY it because it could be re-written at any time. */
 import { REST_DELETE, REST_GET, REST_PATCH, REST_POST } from '@payloadcms/next/routes';
 
-import config from '@/payload/payload.config';
+import config from '@payload-config';
 
 export const GET = REST_GET(config);
 export const POST = REST_POST(config);
