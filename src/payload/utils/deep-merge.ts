@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 function filterArray(target: any[], source: any[], key: string): any[] {
   return source.filter((s) => !target.find((t) => t?.[key] === s?.[key]));
 }
@@ -28,7 +30,7 @@ export function deepMerge<T = Record<string, unknown>>(
     return seen.get(source) as T;
   }
 
-  const output = { ...target } as T extends object ? T : Record<string, unknown>;
+  const output = structuredClone(target) as T extends object ? T : Record<string, unknown>;
 
   seen.set(source, output);
 

@@ -1,8 +1,8 @@
-import { Block } from 'payload';
+import type { Block } from 'payload';
 
 export const Header: Block = {
   slug: 'header',
-  interfaceName: 'BlockHeader',
+  interfaceName: 'PayloadHeaderBlock',
   fields: [
     {
       name: 'heading',

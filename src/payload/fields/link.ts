@@ -1,4 +1,4 @@
-import { Field } from 'payload';
+import type { Field } from 'payload';
 
 export const linkFields: Field[] = [
   {
@@ -107,6 +107,6 @@ export const linkArray: Field = {
       },
     },
   },
-  interfaceName: 'FieldLinkArray',
+  interfaceName: 'PayloadLinkArrayField',
   fields: linkFields,
 };

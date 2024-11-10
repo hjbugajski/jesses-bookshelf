@@ -6,21 +6,33 @@ import { slugify } from '@/lib/utils/slugify';
 import { Role, hasRole, hasRoleOrPublished } from '@/payload/access';
 import { Header } from '@/payload/blocks/header';
 import { Links } from '@/payload/blocks/links';
+import type { PayloadPagesCollection } from '@/payload/payload-types';
 
-export const useSlug: FieldHook = ({ operation, siblingData }) => {
+export const useSlug: FieldHook<
+  PayloadPagesCollection,
+  string | undefined,
+  PayloadPagesCollection
+> = ({ operation, siblingData }) => {
   if (operation === 'create' || operation === 'update') {
     return slugify(siblingData?.title);
   }
 };
 
-export const useRevalidateTag: CollectionAfterChangeHook = ({ doc, previousDoc }) => {
+export const useRevalidateTag: CollectionAfterChangeHook<PayloadPagesCollection> = ({
+  doc,
+  previousDoc,
+  req: { payload },
+}) => {
+  payload.logger.info('revalidating pages');
   revalidateTag('pages');
 
   if (doc._status === 'published') {
+    payload.logger.info(`revalidating page_${doc.slug}`);
     revalidateTag(`page_${doc.slug}`);
   }
 
   if (previousDoc?._status === 'published' && doc._status !== 'published') {
+    payload.logger.info(`revalidating page_${previousDoc.slug}`);
     revalidateTag(`page_${previousDoc.slug}`);
   }
 
@@ -29,16 +41,15 @@ export const useRevalidateTag: CollectionAfterChangeHook = ({ doc, previousDoc }
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
+  typescript: {
+    interface: 'PayloadPagesCollection',
+  },
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', '_status', 'updatedAt'],
   },
   versions: {
-    drafts: {
-      autosave: {
-        interval: 375,
-      },
-    },
+    drafts: true,
   },
   access: {
     read: hasRoleOrPublished(Role.Admin),

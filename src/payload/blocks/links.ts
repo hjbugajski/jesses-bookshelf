@@ -1,11 +1,11 @@
-import { Block, Field } from 'payload';
+import type { Block, Field } from 'payload';
 
 import { linkArray } from '@/payload/fields/link';
 import { deepMerge } from '@/payload/utils/deep-merge';
 
 export const Links: Block = {
   slug: 'links',
-  interfaceName: 'BlockLinks',
+  interfaceName: 'PayloadLinksBlock',
   labels: {
     singular: 'Links',
     plural: 'Links',

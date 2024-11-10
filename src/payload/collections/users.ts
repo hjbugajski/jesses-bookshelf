@@ -4,6 +4,9 @@ import { Role, hasRoleField, hasRoleOrSelfField } from '@/payload/access';
 
 export const Users: CollectionConfig = {
   slug: 'users',
+  typescript: {
+    interface: 'PayloadUsersCollection',
+  },
   admin: {
     useAsTitle: 'email',
     group: 'Admin',

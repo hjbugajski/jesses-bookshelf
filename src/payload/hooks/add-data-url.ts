@@ -1,16 +1,15 @@
-import { CollectionAfterChangeHook } from 'payload';
+import type { CollectionAfterChangeHook } from 'payload';
 import sharp from 'sharp';
 
-import { Media } from '@/payload/payload-types';
+import type { PayloadMediaCollection } from '@/payload/payload-types';
 
-export const useDataUrl: CollectionAfterChangeHook<Media> = async ({
+export const addDataUrl: CollectionAfterChangeHook<PayloadMediaCollection> = async ({
   context,
   doc,
-  operation,
-  req: { payload },
+  req,
 }) => {
-  if (operation === 'update' || context?.ignoreAfterChange || !doc.url) {
-    return;
+  if (!doc.url || context?.ignoreAfterChange) {
+    return doc;
   }
 
   const image = await fetch(doc.url);
@@ -18,7 +17,7 @@ export const useDataUrl: CollectionAfterChangeHook<Media> = async ({
   const sharpBuffer = await sharp(imageBuffer).resize(50).toBuffer();
   const dataUrl = `data:${doc.mimeType};base64,${sharpBuffer.toString('base64')}`;
 
-  await payload.update({
+  return await req.payload.update({
     collection: 'media',
     id: doc.id,
     data: {
@@ -27,5 +26,6 @@ export const useDataUrl: CollectionAfterChangeHook<Media> = async ({
     context: {
       ignoreAfterChange: true,
     },
+    req,
   });
 };
