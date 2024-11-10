@@ -8,7 +8,7 @@ import { Serialize } from '@/components/serialize';
 import config from '@payload-config';
 
 interface PageProps {
-  params: { slug: string[] };
+  params: Promise<{ slug: string[] }>;
 }
 
 const pageTitle = (title: string | undefined, metadata: Metadata) =>
@@ -58,7 +58,8 @@ export async function generateStaticParams() {
   }
 }
 
-export async function generateMetadata({ params: { slug } }: PageProps) {
+export async function generateMetadata({ params }: PageProps) {
+  const slug = await params.then(({ slug }) => slug);
   const page = await fetchCachedPage(slug);
 
   return {
@@ -67,7 +68,8 @@ export async function generateMetadata({ params: { slug } }: PageProps) {
   };
 }
 
-export default async function Page({ params: { slug } }: PageProps) {
+export default async function Page({ params }: PageProps) {
+  const slug = await params.then(({ slug }) => slug);
   const page = await fetchCachedPage(slug);
 
   if (!page) {
