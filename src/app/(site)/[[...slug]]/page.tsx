@@ -1,7 +1,7 @@
 import { getPayloadHMR } from '@payloadcms/next/utilities';
 import { unstable_cache } from 'next/cache';
 import { notFound } from 'next/navigation';
-import { Metadata } from 'next/types';
+import type { Metadata } from 'next/types';
 
 import { metadata } from '@/app/(site)/layout';
 import { Serialize } from '@/components/serialize';
@@ -12,7 +12,9 @@ interface PageProps {
 }
 
 const pageTitle = (title: string | undefined, metadata: Metadata) =>
-  !title || title?.toLowerCase() === 'home' ? metadata.title : `${title} | ${metadata.title}`;
+  !title || title?.toLowerCase() === 'home'
+    ? metadata.title
+    : `${title} | ${metadata.title as string}`;
 
 const fetchPages = async () => {
   const payload = await getPayloadHMR({ config });

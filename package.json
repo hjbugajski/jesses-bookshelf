@@ -26,9 +26,9 @@
     "generate:types": "infisical run pnpm payload generate:types -- --use-tsx",
     "generate:importmap": "infisical run pnpm payload generate:importmap -- --use-tsx",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
-    "lint:all": "pnpm prettier && pnpm eslint && pnpm stylelint",
-    "eslint": "eslint --ext .js,.jsx,.ts,.tsx .",
-    "eslint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
+    "lint:all": "pnpm prettier && pnpm eslint && pnpm stylelint && pnpm lint",
+    "eslint": "eslint .",
+    "eslint:fix": "eslint --fix .",
     "prettier": "prettier --check --ignore-unknown .",
     "prettier:fix": "prettier --write --ignore-unknown .",
     "stylelint": "stylelint '**/*.css' --ignore-path .gitignore",
@@ -56,18 +56,20 @@
     "zod": "^3"
   },
   "devDependencies": {
+    "@eslint/js": "^9",
+    "@next/eslint-plugin-next": "^15",
     "@types/node": "^20",
     "@types/react": "npm:types-react@19.0.0-rc.1",
     "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
     "@typescript-eslint/eslint-plugin": "^8",
     "@typescript-eslint/parser": "^8",
-    "eslint": "^8",
-    "eslint-config-next": "^15",
+    "eslint": "^9",
     "eslint-config-prettier": "^9",
     "eslint-import-resolver-typescript": "^3",
     "eslint-plugin-import": "^2",
-    "eslint-plugin-jsx-a11y": "^6",
     "eslint-plugin-prettier": "^5",
+    "eslint-plugin-react": "^7",
+    "globals": "^15",
     "postcss": "^8",
     "prettier": "^3",
     "prettier-plugin-tailwindcss": "^0.6",
@@ -76,7 +78,8 @@
     "stylelint-config-standard": "^36",
     "tailwindcss": "^3",
     "tsx": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "typescript-eslint": "^8"
   },
   "pnpm": {
     "overrides": {

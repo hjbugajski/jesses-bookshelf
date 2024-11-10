@@ -1,8 +1,9 @@
-import { SVGProps, forwardRef } from 'react';
+import type { SVGProps } from 'react';
+import { forwardRef } from 'react';
 
 import { Gift, Instagram, Link, Mail, OpenBook, Shop, Tiktok } from 'iconoir-react';
 
-import { IconName } from '@/lib/types/icon-name';
+import type { IconName } from '@/lib/types/icon-name';
 
 const icons: Record<IconName, React.FC<SVGProps<SVGSVGElement>>> = {
   gift: Gift,

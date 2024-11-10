@@ -1,4 +1,4 @@
-import { Block, Field } from 'payload';
+import type { Block, Field } from 'payload';
 
 import { linkArray } from '@/payload/fields/link';
 import { deepMerge } from '@/payload/utils/deep-merge';

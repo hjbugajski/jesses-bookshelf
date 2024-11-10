@@ -1,6 +1,6 @@
 import { Header } from '@/components/blocks/header';
 import { Links } from '@/components/blocks/links';
-import { PayloadHeaderBlock, PayloadLinksBlock } from '@/payload/payload-types';
+import type { PayloadHeaderBlock, PayloadLinksBlock } from '@/payload/payload-types';
 
 type BlocksProps = PayloadHeaderBlock | PayloadLinksBlock;
 

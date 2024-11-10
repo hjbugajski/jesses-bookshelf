@@ -1,11 +1,12 @@
-import { ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
 
-import Link, { LinkProps } from 'next/link';
+import type { LinkProps } from 'next/link';
+import Link from 'next/link';
 
 import { Icon } from '@/lib/components/icon';
 import { cn } from '@/lib/utils/cn';
 import { slugify } from '@/lib/utils/slugify';
-import { PayloadLinksBlock } from '@/payload/payload-types';
+import type { PayloadLinksBlock } from '@/payload/payload-types';
 
 type PayloadLink = PayloadLinksBlock['links'][number];
 

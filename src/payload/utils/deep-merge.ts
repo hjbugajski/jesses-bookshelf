@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 function filterArray(target: any[], source: any[], key: string): any[] {
   return source.filter((s) => !target.find((t) => t?.[key] === s?.[key]));
 }

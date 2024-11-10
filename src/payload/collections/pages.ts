@@ -6,14 +6,19 @@ import { slugify } from '@/lib/utils/slugify';
 import { Role, hasRole, hasRoleOrPublished } from '@/payload/access';
 import { Header } from '@/payload/blocks/header';
 import { Links } from '@/payload/blocks/links';
+import type { PayloadPagesCollection } from '@/payload/payload-types';
 
-export const useSlug: FieldHook = ({ operation, siblingData }) => {
+export const useSlug: FieldHook<
+  PayloadPagesCollection,
+  string | undefined,
+  PayloadPagesCollection
+> = ({ operation, siblingData }) => {
   if (operation === 'create' || operation === 'update') {
     return slugify(siblingData?.title);
   }
 };
 
-export const useRevalidateTag: CollectionAfterChangeHook = ({
+export const useRevalidateTag: CollectionAfterChangeHook<PayloadPagesCollection> = ({
   doc,
   previousDoc,
   req: { payload },

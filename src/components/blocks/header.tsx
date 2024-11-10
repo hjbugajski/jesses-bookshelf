@@ -1,8 +1,8 @@
-import { ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
 
 import { PayloadImage } from '@/lib/components/payload-image';
 import { cn } from '@/lib/utils/cn';
-import { PayloadHeaderBlock } from '@/payload/payload-types';
+import type { PayloadHeaderBlock } from '@/payload/payload-types';
 
 interface HeaderProps extends ComponentProps<'header'> {
   block: PayloadHeaderBlock;
