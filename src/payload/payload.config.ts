@@ -1,7 +1,7 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-import { mongooseAdapter } from '@payloadcms/db-mongodb';
+import { postgresAdapter } from '@payloadcms/db-postgres';
 import { resendAdapter } from '@payloadcms/email-resend';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import { s3Storage } from '@payloadcms/storage-s3';
@@ -23,12 +23,13 @@ export default buildConfig({
   admin: {
     user: Users.slug,
   },
-  collections: [Media, Pages, Users],
-  db: mongooseAdapter({
-    url: env.MONGODB_URL,
-    connectOptions: {
-      dbName: env.MONGODB_DATABASE,
+  collections: [Pages, Media, Users],
+  db: postgresAdapter({
+    pool: {
+      connectionString: env.POSTGRES_CONNECTION_STRING,
     },
+    migrationDir: path.join(dirname, 'migrations'),
+    idType: 'uuid',
   }),
   editor: lexicalEditor({}),
   email: resendAdapter({
