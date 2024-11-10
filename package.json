@@ -26,6 +26,7 @@
     "generate:types": "infisical run pnpm payload generate:types -- --use-tsx",
     "generate:importmap": "infisical run pnpm payload generate:importmap -- --use-tsx",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
+    "i:lint": "infisical run pnpm lint",
     "lint:all": "pnpm prettier && pnpm eslint && pnpm stylelint && pnpm lint",
     "eslint": "eslint .",
     "eslint:fix": "eslint --fix .",
