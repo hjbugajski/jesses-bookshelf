@@ -28,7 +28,7 @@ export function deepMerge<T = Record<string, unknown>>(
     return seen.get(source) as T;
   }
 
-  const output = { ...target } as T extends object ? T : Record<string, unknown>;
+  const output = structuredClone(target) as T extends object ? T : Record<string, unknown>;
 
   seen.set(source, output);
 

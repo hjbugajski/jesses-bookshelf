@@ -5,7 +5,7 @@ import { deepMerge } from '@/payload/utils/deep-merge';
 
 export const Links: Block = {
   slug: 'links',
-  interfaceName: 'BlockLinks',
+  interfaceName: 'PayloadLinksBlock',
   labels: {
     singular: 'Links',
     plural: 'Links',

@@ -1,10 +1,13 @@
 import { CollectionConfig } from 'payload';
 
 import { Role, hasRole } from '@/payload/access';
-import { useDataUrl } from '@/payload/hooks/use-data-url';
+import { addDataUrl } from '@/payload/hooks/add-data-url';
 
 export const Media: CollectionConfig = {
   slug: 'media',
+  typescript: {
+    interface: 'PayloadMediaCollection',
+  },
   admin: {
     useAsTitle: 'filename',
     defaultColumns: ['filename', 'createdAt', 'updatedAt'],
@@ -16,7 +19,7 @@ export const Media: CollectionConfig = {
     delete: hasRole(Role.Admin),
   },
   hooks: {
-    afterChange: [useDataUrl],
+    afterChange: [addDataUrl],
   },
   upload: {
     adminThumbnail: 'thumbnail',
@@ -27,6 +30,10 @@ export const Media: CollectionConfig = {
         width: 400,
         height: 300,
       },
+      {
+        name: 'preview',
+        height: 192,
+      },
     ],
   },
   fields: [
@@ -35,6 +42,15 @@ export const Media: CollectionConfig = {
       label: 'Description',
       type: 'text',
       required: true,
+    },
+    {
+      name: 'displayOriginal',
+      type: 'checkbox',
+      defaultValue: false,
+      required: true,
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'dataUrl',

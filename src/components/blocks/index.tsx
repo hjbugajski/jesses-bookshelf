@@ -1,8 +1,8 @@
 import { Header } from '@/components/blocks/header';
 import { Links } from '@/components/blocks/links';
-import { PayloadBlockHeader, PayloadBlockLinks } from '@/lib/types/payload';
+import { PayloadHeaderBlock, PayloadLinksBlock } from '@/payload/payload-types';
 
-type BlocksProps = PayloadBlockHeader | PayloadBlockLinks;
+type BlocksProps = PayloadHeaderBlock | PayloadLinksBlock;
 
 export function Blocks(props: BlocksProps) {
   const baseClassNames = 'py-6 first:pt-0 last:pb-0';

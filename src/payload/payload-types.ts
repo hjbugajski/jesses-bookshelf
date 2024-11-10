@@ -8,14 +8,14 @@
 
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FieldLinkArray".
+ * via the `definition` "PayloadLinkArrayField".
  */
-export type FieldLinkArray = {
+export type PayloadLinkArrayField = {
   text: string;
   subtext: string;
   icon: 'gift' | 'instagram' | 'link' | 'mail' | 'open-book' | 'shop' | 'tiktok';
   type: 'internal' | 'external';
-  relationship?: (string | null) | Page;
+  relationship?: (string | null) | PayloadPagesCollection;
   anchor?: string | null;
   url?: string | null;
   rel?: ('noreferrer' | 'nofollow')[] | null;
@@ -30,17 +30,17 @@ export interface Config {
     users: UserAuthOperations;
   };
   collections: {
-    media: Media;
-    pages: Page;
-    users: User;
+    pages: PayloadPagesCollection;
+    media: PayloadMediaCollection;
+    users: PayloadUsersCollection;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
   collectionsJoins: {};
   collectionsSelect: {
-    media: MediaSelect<false> | MediaSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -52,7 +52,7 @@ export interface Config {
   globals: {};
   globalsSelect: {};
   locale: null;
-  user: User & {
+  user: PayloadUsersCollection & {
     collection: 'users';
   };
   jobs?: {
@@ -80,39 +80,9 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
- */
-export interface Media {
-  id: string;
-  alt: string;
-  dataUrl?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-  sizes?: {
-    thumbnail?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-  };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages".
  */
-export interface Page {
+export interface PayloadPagesCollection {
   id: string;
   title: string;
   description: string;
@@ -138,9 +108,48 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface PayloadMediaCollection {
+  id: string;
+  alt: string;
+  displayOriginal: boolean;
+  dataUrl?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    preview?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
-export interface User {
+export interface PayloadUsersCollection {
   id: string;
   roles: ('admin' | 'public')[];
   updatedAt: string;
@@ -162,21 +171,21 @@ export interface PayloadLockedDocument {
   id: string;
   document?:
     | ({
-        relationTo: 'media';
-        value: string | Media;
+        relationTo: 'pages';
+        value: string | PayloadPagesCollection;
       } | null)
     | ({
-        relationTo: 'pages';
-        value: string | Page;
+        relationTo: 'media';
+        value: string | PayloadMediaCollection;
       } | null)
     | ({
         relationTo: 'users';
-        value: string | User;
+        value: string | PayloadUsersCollection;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: string | PayloadUsersCollection;
   };
   updatedAt: string;
   createdAt: string;
@@ -189,7 +198,7 @@ export interface PayloadPreference {
   id: string;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: string | PayloadUsersCollection;
   };
   key?: string | null;
   value?:
@@ -217,10 +226,24 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  content?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  displayOriginal?: T;
   dataUrl?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -246,20 +269,17 @@ export interface MediaSelect<T extends boolean = true> {
               filesize?: T;
               filename?: T;
             };
+        preview?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
       };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pages_select".
- */
-export interface PagesSelect<T extends boolean = true> {
-  title?: T;
-  description?: T;
-  content?: T;
-  slug?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -311,21 +331,21 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "BlockHeader".
+ * via the `definition` "PayloadHeaderBlock".
  */
-export interface BlockHeader {
+export interface PayloadHeaderBlock {
   heading: string;
-  image: string | Media;
+  image: string | PayloadMediaCollection;
   id?: string | null;
   blockName?: string | null;
   blockType: 'header';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "BlockLinks".
+ * via the `definition` "PayloadLinksBlock".
  */
-export interface BlockLinks {
-  links: FieldLinkArray;
+export interface PayloadLinksBlock {
+  links: PayloadLinkArrayField;
   id?: string | null;
   blockName?: string | null;
   blockType: 'links';

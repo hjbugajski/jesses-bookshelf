@@ -13,14 +13,21 @@ export const useSlug: FieldHook = ({ operation, siblingData }) => {
   }
 };
 
-export const useRevalidateTag: CollectionAfterChangeHook = ({ doc, previousDoc }) => {
+export const useRevalidateTag: CollectionAfterChangeHook = ({
+  doc,
+  previousDoc,
+  req: { payload },
+}) => {
+  payload.logger.info('revalidating pages');
   revalidateTag('pages');
 
   if (doc._status === 'published') {
+    payload.logger.info(`revalidating page_${doc.slug}`);
     revalidateTag(`page_${doc.slug}`);
   }
 
   if (previousDoc?._status === 'published' && doc._status !== 'published') {
+    payload.logger.info(`revalidating page_${previousDoc.slug}`);
     revalidateTag(`page_${previousDoc.slug}`);
   }
 
@@ -29,16 +36,15 @@ export const useRevalidateTag: CollectionAfterChangeHook = ({ doc, previousDoc }
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
+  typescript: {
+    interface: 'PayloadPagesCollection',
+  },
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', '_status', 'updatedAt'],
   },
   versions: {
-    drafts: {
-      autosave: {
-        interval: 375,
-      },
-    },
+    drafts: true,
   },
   access: {
     read: hasRoleOrPublished(Role.Admin),

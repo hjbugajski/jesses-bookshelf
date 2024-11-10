@@ -107,6 +107,6 @@ export const linkArray: Field = {
       },
     },
   },
-  interfaceName: 'FieldLinkArray',
+  interfaceName: 'PayloadLinkArrayField',
   fields: linkFields,
 };

@@ -2,7 +2,7 @@ import { Block } from 'payload';
 
 export const Header: Block = {
   slug: 'header',
-  interfaceName: 'BlockHeader',
+  interfaceName: 'PayloadHeaderBlock',
   fields: [
     {
       name: 'heading',
