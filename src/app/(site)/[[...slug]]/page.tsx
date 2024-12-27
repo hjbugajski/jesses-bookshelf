@@ -1,9 +1,12 @@
-import { getPayloadHMR } from '@payloadcms/next/utilities';
-import { unstable_cache } from 'next/cache';
+import { cache } from 'react';
+
+import { draftMode } from 'next/headers';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next/types';
+import { getPayload } from 'payload';
 
 import { metadata } from '@/app/(site)/layout';
+import { LivePreviewListener } from '@/components/live-preview-listener';
 import { Serialize } from '@/components/serialize';
 import config from '@payload-config';
 
@@ -16,51 +19,53 @@ const pageTitle = (title: string | undefined, metadata: Metadata) =>
     ? metadata.title
     : `${title} | ${metadata.title as string}`;
 
-const fetchPages = async () => {
-  const payload = await getPayloadHMR({ config });
-  const pages = await payload.find({
-    collection: 'pages',
-    where: { _status: { equals: 'published' } },
-    pagination: false,
-  });
-
-  console.log(pages.docs.map(({ slug }) => ({ slug })));
-
-  return pages.docs.map(({ slug }) => ({ slug }));
-};
-
-const fetchCachedPages = () => unstable_cache(fetchPages, [], { tags: ['pages'] })();
-
-const fetchPage = async (slug: string) => {
-  const payload = await getPayloadHMR({ config });
-  const page = await payload.find({
-    collection: 'pages',
-    where: { and: [{ slug: { equals: slug } }, { _status: { equals: 'published' } }] },
-  });
-
-  return page?.docs?.[0] || null;
-};
-
-const fetchCachedPage = (segments?: string[]) => {
+const queryPage = cache(async ({ slug: segments }: { slug: string[] }) => {
   const slugSegments = segments || ['home'];
   const slug = slugSegments[slugSegments.length - 1];
 
-  return unstable_cache(fetchPage, [slug], { tags: [`page_${slug}`] })(slug);
-};
+  const draftModePromis = draftMode();
+  const payloadPromise = getPayload({ config });
+
+  const [{ isEnabled: draft }, payload] = await Promise.all([draftModePromis, payloadPromise]);
+
+  const result = await payload.find({
+    collection: 'pages',
+    draft,
+    pagination: false,
+    limit: 1,
+    overrideAccess: draft,
+    where: {
+      slug: {
+        equals: slug,
+      },
+    },
+  });
+
+  return result.docs?.[0] || null;
+});
 
 export async function generateStaticParams() {
   try {
-    const pages = await fetchCachedPages();
+    const payload = await getPayload({ config });
+    const pages = await payload.find({
+      collection: 'pages',
+      draft: false,
+      pagination: false,
+      overrideAccess: false,
+      select: {
+        slug: true,
+      },
+    });
 
-    return pages.map(({ slug }) => ({ slug: [slug] }));
+    return pages.docs.map(({ slug }) => ({ slug: [slug] }));
   } catch {
     return [{ slug: undefined }];
   }
 }
 
 export async function generateMetadata({ params }: PageProps) {
-  const slug = await params.then(({ slug }) => slug);
-  const page = await fetchCachedPage(slug);
+  const { slug } = await params;
+  const page = await queryPage({ slug });
 
   return {
     title: pageTitle(page?.title, metadata),
@@ -69,12 +74,18 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export default async function Page({ params }: PageProps) {
-  const slug = await params.then(({ slug }) => slug);
-  const page = await fetchCachedPage(slug);
+  const { isEnabled: draft } = await draftMode();
+  const { slug } = await params;
+  const page = await queryPage({ slug });
 
   if (!page) {
     notFound();
   }
 
-  return page.content?.root?.children && <Serialize nodes={page.content.root.children} />;
+  return (
+    <>
+      {draft ? <LivePreviewListener /> : null}
+      {page.content?.root?.children ? <Serialize nodes={page.content.root.children} /> : null}
+    </>
+  );
 }

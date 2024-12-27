@@ -4,6 +4,7 @@ import Script from 'next/script';
 
 import { env } from '@/env/client';
 import { cn } from '@/lib/utils/cn';
+import { getServerSideUrl } from '@/payload/utils/get-server-side-url';
 
 import './globals.css';
 
@@ -14,6 +15,7 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(getServerSideUrl()),
   title: "Jesse's Bookshelf",
   icons: {
     icon: [
