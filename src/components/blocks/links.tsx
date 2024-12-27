@@ -41,7 +41,7 @@ type LinksProps = ComponentProps<'ul'> & {
   block: PayloadLinksBlock;
 };
 
-export const Links = ({ className, block: { links }, ...props }: LinksProps) => (
+export const LinksBlock = ({ className, block: { links }, ...props }: LinksProps) => (
   <ul className={cn('flex w-full flex-col gap-4', className)} {...props}>
     {links.map((link) => (
       <li key={link.id}>

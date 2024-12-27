@@ -2,8 +2,12 @@ name: Pull Request Checks
 
 on:
   pull_request:
-    branches: [main]
-    types: [opened, synchronize, reopened]
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
 
 jobs:
   lint:
@@ -16,7 +20,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9.12.2
+          version: 9.15.1
 
       - name: Setup Node.js
         uses: actions/setup-node@v4

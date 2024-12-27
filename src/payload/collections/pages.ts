@@ -1,12 +1,18 @@
 import { BlocksFeature, lexicalEditor } from '@payloadcms/richtext-lexical';
-import { revalidateTag } from 'next/cache';
-import type { CollectionAfterChangeHook, CollectionConfig, FieldHook } from 'payload';
+import { revalidatePath } from 'next/cache';
+import type {
+  CollectionAfterChangeHook,
+  CollectionAfterDeleteHook,
+  CollectionConfig,
+  FieldHook,
+} from 'payload';
 
 import { slugify } from '@/lib/utils/slugify';
 import { Role, hasRole, hasRoleOrPublished } from '@/payload/access';
 import { Header } from '@/payload/blocks/header';
 import { Links } from '@/payload/blocks/links';
 import type { PayloadPagesCollection } from '@/payload/payload-types';
+import { generatePreviewPath } from '@/payload/utils/generate-preview-path';
 
 export const useSlug: FieldHook<
   PayloadPagesCollection,
@@ -18,28 +24,42 @@ export const useSlug: FieldHook<
   }
 };
 
-export const useRevalidateTag: CollectionAfterChangeHook<PayloadPagesCollection> = ({
+const revalidatePageAfterChange: CollectionAfterChangeHook<PayloadPagesCollection> = ({
   doc,
   previousDoc,
   req: { payload },
 }) => {
-  payload.logger.info('revalidating pages');
-  revalidateTag('pages');
-
   if (doc._status === 'published') {
-    payload.logger.info(`revalidating page_${doc.slug}`);
-    revalidateTag(`page_${doc.slug}`);
+    const path = doc.slug === 'home' ? '/' : `/${doc.slug}`;
+
+    payload.logger.info(`Revalidating path: ${path}`);
+    revalidatePath(path);
   }
 
   if (previousDoc?._status === 'published' && doc._status !== 'published') {
-    payload.logger.info(`revalidating page_${previousDoc.slug}`);
-    revalidateTag(`page_${previousDoc.slug}`);
+    const oldPath = previousDoc.slug === 'home' ? '/' : `/${previousDoc.slug}`;
+
+    payload.logger.info(`Revalidating previous path: ${oldPath}`);
+    revalidatePath(oldPath);
   }
 
   return doc;
 };
 
-export const Pages: CollectionConfig = {
+export const revalidatePageAfterDelete: CollectionAfterDeleteHook<PayloadPagesCollection> = ({
+  doc,
+  req: { context },
+}) => {
+  if (!context.disableRevalidate) {
+    const path = doc?.slug === 'home' ? '/' : `/${doc?.slug}`;
+
+    revalidatePath(path);
+  }
+
+  return doc;
+};
+
+export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
   typescript: {
     interface: 'PayloadPagesCollection',
@@ -47,9 +67,27 @@ export const Pages: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', '_status', 'updatedAt'],
+    livePreview: {
+      url: ({ data, req }) =>
+        generatePreviewPath({
+          slug: typeof data?.slug === 'string' ? data.slug : '',
+          collection: 'pages',
+          req,
+        }),
+    },
+    preview: (data, { req }) =>
+      generatePreviewPath({
+        slug: typeof data?.slug === 'string' ? data.slug : '',
+        collection: 'pages',
+        req,
+      }),
   },
   versions: {
-    drafts: true,
+    drafts: {
+      autosave: {
+        interval: 100,
+      },
+    },
   },
   access: {
     read: hasRoleOrPublished(Role.Admin),
@@ -58,7 +96,8 @@ export const Pages: CollectionConfig = {
     delete: hasRole(Role.Admin),
   },
   hooks: {
-    afterChange: [useRevalidateTag],
+    afterChange: [revalidatePageAfterChange],
+    afterDelete: [revalidatePageAfterDelete],
   },
   fields: [
     {

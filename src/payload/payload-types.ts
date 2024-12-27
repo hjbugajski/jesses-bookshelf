@@ -55,9 +55,9 @@ export interface Config {
   user: PayloadUsersCollection & {
     collection: 'users';
   };
-  jobs?: {
+  jobs: {
     tasks: unknown;
-    workflows?: unknown;
+    workflows: unknown;
   };
 }
 export interface UserAuthOperations {
