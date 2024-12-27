@@ -8,7 +8,7 @@ interface HeaderProps extends ComponentProps<'header'> {
   block: PayloadHeaderBlock;
 }
 
-export const Header = ({ className, block: { heading, image }, ...props }: HeaderProps) => (
+export const HeaderBlock = ({ className, block: { heading, image }, ...props }: HeaderProps) => (
   <header className={cn('flex flex-col items-center gap-8 text-center', className)} {...props}>
     {typeof image === 'string' ? null : (
       <PayloadImage

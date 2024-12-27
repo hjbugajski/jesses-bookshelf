@@ -7,7 +7,7 @@ import { getPayload } from 'payload';
 
 import { metadata } from '@/app/(site)/layout';
 import { LivePreviewListener } from '@/components/live-preview-listener';
-import { Serialize } from '@/components/serialize';
+import { RichText } from '@/components/rich-text';
 import config from '@payload-config';
 
 interface PageProps {
@@ -85,7 +85,7 @@ export default async function Page({ params }: PageProps) {
   return (
     <>
       {draft ? <LivePreviewListener /> : null}
-      {page.content?.root?.children ? <Serialize nodes={page.content.root.children} /> : null}
+      <RichText data={page.content} />
     </>
   );
 }
