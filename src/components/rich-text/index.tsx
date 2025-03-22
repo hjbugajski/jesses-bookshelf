@@ -117,6 +117,7 @@ function convertLexicalToJsx({
 
     if (node.type === 'block') {
       additionalClass = additionalClasses?.blocks?.[node.fields.blockType];
+      // @ts-expect-error – valid types
       converter = converters.blocks?.[node.fields.blockType];
       overrideClass = overrideClasses?.blocks?.[node.fields.blockType];
     } else if (node.type === 'inlineBlock') {
@@ -125,6 +126,7 @@ function convertLexicalToJsx({
       overrideClass = undefined;
     } else {
       additionalClass = additionalClasses?.[node.type];
+      // @ts-expect-error – valid types
       converter = converters[node.type];
       overrideClass = overrideClasses?.[node.type];
     }
