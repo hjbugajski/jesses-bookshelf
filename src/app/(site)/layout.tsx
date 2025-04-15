@@ -3,8 +3,8 @@ import { Nunito } from 'next/font/google';
 import Script from 'next/script';
 
 import { env } from '@/env/client';
-import { cn } from '@/lib/utils/cn';
 import { getServerSideUrl } from '@/payload/utils/get-server-side-url';
+import { cn } from '@/utils/cn';
 
 import './globals.css';
 
