@@ -13,6 +13,9 @@ jobs:
   lint:
     name: Lint and format
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -20,7 +23,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10.6.5
+          version: 10.8.1
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
