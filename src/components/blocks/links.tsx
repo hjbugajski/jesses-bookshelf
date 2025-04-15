@@ -3,7 +3,7 @@ import type { ComponentProps } from 'react';
 import type { LinkProps } from 'next/link';
 import Link from 'next/link';
 
-import { Icon } from '@/lib/components/icon';
+import { Icon } from '@/components/ui/icon';
 import { cn } from '@/lib/utils/cn';
 import { slugify } from '@/lib/utils/slugify';
 import type { PayloadLinksBlock } from '@/payload/payload-types';
