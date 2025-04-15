@@ -2,7 +2,6 @@ import type { Config } from 'tailwindcss';
 import defaultTheme from 'tailwindcss/defaultTheme';
 import plugin from 'tailwindcss/plugin';
 
-// eslint-disable-next-line @typescript-eslint/unbound-method
 const utilitiesPlugin = plugin(function ({ addUtilities }) {
   addUtilities({
     '.font-light': {
