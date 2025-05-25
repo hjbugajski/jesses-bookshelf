@@ -33,17 +33,13 @@ export const metadata: Metadata = {
   manifest: '/manifest.webmanifest',
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="en"
       className={cn(
         nunito.variable,
-        'h-full bg-violet-100 text-violet-900 font-optical-sizing-auto',
+        'h-full bg-violet-100 text-violet-900 selection:bg-violet-900 selection:text-violet-200',
       )}
     >
       <body className="flex h-full w-full flex-col">

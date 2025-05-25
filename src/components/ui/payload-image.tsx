@@ -10,7 +10,6 @@ export type PayloadImageProps = PayloadMediaCollection & {
 
 const PayloadImage = ({
   alt,
-  className,
   createdAt,
   dataUrl,
   displayOriginal,
@@ -43,7 +42,6 @@ const PayloadImage = ({
       placeholder="blur"
       blurDataURL={dataUrl ?? undefined}
       alt={alt}
-      className={cn('rounded-sm', className)}
       {...props}
     />
   );
