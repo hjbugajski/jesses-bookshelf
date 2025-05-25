@@ -1,9 +1,40 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+  --font-sans:
+    var(--font-nunito), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+  --breakpoint-xs: 375px;
+}
 
 @layer base {
-  *::selection {
-    @apply bg-violet-900 text-violet-200;
+  html {
+    font-variation-settings: 'wght' 550;
+    font-optical-sizing: auto;
   }
+}
+
+/* Custom Font Utilities */
+@utility font-light {
+  font-variation-settings: 'wght' 450;
+}
+
+@utility font-normal {
+  font-variation-settings: 'wght' 550;
+}
+
+@utility font-medium {
+  font-variation-settings: 'wght' 650;
+}
+
+@utility font-semibold {
+  font-variation-settings: 'wght' 750;
+}
+
+@utility font-bold {
+  font-variation-settings: 'wght' 850;
+}
+
+@utility font-optical-sizing-auto {
+  font-optical-sizing: auto;
 }
