@@ -24,6 +24,50 @@ export default buildConfig({
     user: Users.slug,
   },
   collections: [Pages, Media, Users],
+  endpoints: [
+    {
+      path: '/health',
+      method: 'get',
+      handler: async (req) => {
+        try {
+          const startTime = Date.now();
+
+          await req.payload.find({
+            collection: 'users',
+            limit: 1,
+            pagination: false,
+          });
+
+          const responseTime = Date.now() - startTime;
+
+          return Response.json({
+            status: 'healthy',
+            timestamp: new Date().toISOString(),
+            checks: {
+              database: {
+                status: 'healthy',
+                responseTime,
+              },
+            },
+          });
+        } catch {
+          return Response.json(
+            {
+              status: 'unhealthy',
+              timestamp: new Date().toISOString(),
+              checks: {
+                database: {
+                  status: 'unhealthy',
+                  error: 'Database connection failed',
+                },
+              },
+            },
+            { status: 503 },
+          );
+        }
+      },
+    },
+  ],
   db: postgresAdapter({
     pool: {
       connectionString: env.POSTGRES_CONNECTION_STRING,
