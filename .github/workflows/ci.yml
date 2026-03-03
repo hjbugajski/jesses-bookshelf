@@ -32,11 +32,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Prettier
-        run: pnpm prettier
+      - name: Format
+        run: pnpm fmt:check
 
-      - name: ESLint
-        run: pnpm eslint
+      - name: Lint
+        run: pnpm lint:check
 
       - name: Stylelint
-        run: pnpm stylelint
+        run: pnpm stylelint:check

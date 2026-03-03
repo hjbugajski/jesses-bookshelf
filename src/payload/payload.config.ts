@@ -21,6 +21,28 @@ const whitelist = [env.SERVER_URL, ...env.DOMAINS.split(' ')];
 
 export default buildConfig({
   admin: {
+    livePreview: {
+      breakpoints: [
+        {
+          label: 'Mobile',
+          name: 'mobile',
+          width: 375,
+          height: 667,
+        },
+        {
+          label: 'Tablet',
+          name: 'tablet',
+          width: 768,
+          height: 1024,
+        },
+        {
+          label: 'Desktop',
+          name: 'desktop',
+          width: 1440,
+          height: 900,
+        },
+      ],
+    },
     user: Users.slug,
   },
   collections: [Pages, Media, Users],
@@ -76,6 +98,9 @@ export default buildConfig({
     idType: 'uuid',
   }),
   editor: lexicalEditor({}),
+  graphQL: {
+    disable: true,
+  },
   email: resendAdapter({
     defaultFromAddress: env.DEFAULT_FROM_ADDRESS,
     defaultFromName: env.DEFAULT_FROM_NAME,
@@ -97,14 +122,14 @@ export default buildConfig({
       },
     }),
   ],
-  onInit: async (payload) => {
-    const users = await payload.find({
+  onInit: async ({ create, find }) => {
+    const users = await find({
       collection: 'users',
       limit: 1,
     });
 
     if (users.docs.length === 0) {
-      await payload.create({
+      await create({
         collection: 'users',
         data: {
           email: env.PAYLOAD_ADMIN_USER,
@@ -121,5 +146,6 @@ export default buildConfig({
   sharp,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
+    strictDraftTypes: true,
   },
 });
