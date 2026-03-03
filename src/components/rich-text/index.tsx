@@ -29,7 +29,7 @@ import { cn } from '@/utils/cn';
 
 export type JSXConverter<
   T extends {
-    [key: string]: any;
+    [key: string]: unknown;
     type?: string;
   } = SerializedLexicalNode,
 > = (args: {
@@ -112,7 +112,7 @@ function convertLexicalToJsx({
 }: ConvertLexicalToJsxProps): ReactNode[] {
   return nodes.map<ReactNode>((node, i) => {
     let additionalClass: string | undefined;
-    let converter: JSXConverter<any> | undefined;
+    let converter: JSXConverter | undefined;
     let overrideClass: string | undefined;
 
     if (node.type === 'block') {

@@ -5,10 +5,11 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next/types';
 import { getPayload } from 'payload';
 
+import config from '@payload-config';
+
 import { metadata } from '@/app/(site)/layout';
 import { LivePreviewListener } from '@/components/live-preview-listener';
 import { RichText } from '@/components/rich-text';
-import config from '@payload-config';
 
 interface PageProps {
   params: Promise<{ slug: string[] }>;

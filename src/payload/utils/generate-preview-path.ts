@@ -1,4 +1,4 @@
-import type { CollectionSlug, PayloadRequest } from 'payload';
+import type { CollectionSlug } from 'payload';
 
 const collectionPrefixMap: Partial<Record<CollectionSlug, string>> = {
   pages: '',
@@ -7,27 +7,20 @@ const collectionPrefixMap: Partial<Record<CollectionSlug, string>> = {
 type Props = {
   collection: keyof typeof collectionPrefixMap;
   slug: string;
-  req: PayloadRequest;
 };
 
-export const generatePreviewPath = ({ collection, slug, req }: Props) => {
-  const path = `${collectionPrefixMap[collection]}/${slug}`;
+export const generatePreviewPath = ({ collection, slug }: Props) => {
+  if (slug === undefined || slug === null) {
+    return null;
+  }
 
-  const params = {
-    slug,
+  const encodedSlug = encodeURIComponent(slug);
+
+  const encodedParams = new URLSearchParams({
+    slug: encodedSlug,
     collection,
-    path,
-  };
-
-  const encodedParams = new URLSearchParams();
-
-  Object.entries(params).forEach(([key, value]) => {
-    encodedParams.append(key, value);
+    path: `${collectionPrefixMap[collection]}/${encodedSlug}`,
   });
 
-  const isProduction =
-    process.env.NODE_ENV === 'production' || Boolean(process.env.VERCEL_PROJECT_PRODUCTION_URL);
-  const protocol = isProduction ? 'https:' : req.protocol;
-
-  return `${protocol}//${req.host}/next/preview?${encodedParams.toString()}`;
+  return `/next/preview?${encodedParams.toString()}`;
 };
