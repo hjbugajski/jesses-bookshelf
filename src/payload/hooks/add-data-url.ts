@@ -1,31 +1,24 @@
 import type { CollectionAfterChangeHook } from 'payload';
-import sharp from 'sharp';
 
 import type { PayloadMediaCollection } from '@/payload/payload-types';
+import { createDataUrl } from '@/payload/utils/create-data-url';
 
 export const addDataUrl: CollectionAfterChangeHook<PayloadMediaCollection> = async ({
   context,
   doc,
   req,
 }) => {
-  if (!doc.url || context?.ignoreAfterChange) {
+  if (!req.file?.data || context?.ignoreAddDataUrl) {
     return doc;
   }
 
-  const image = await fetch(doc.url);
-  const imageBuffer = await image.arrayBuffer();
-  const sharpBuffer = await sharp(imageBuffer).resize(50).toBuffer();
-  const dataUrl = `data:${doc.mimeType};base64,${sharpBuffer.toString('base64')}`;
+  const dataUrl = await createDataUrl(req.file.data, doc.mimeType);
 
   return req.payload.update({
     collection: 'media',
     id: doc.id,
-    data: {
-      dataUrl,
-    },
-    context: {
-      ignoreAfterChange: true,
-    },
-    req,
+    data: { dataUrl },
+    context: { ignoreAddDataUrl: true },
+    req: { transactionID: req.transactionID, user: req.user },
   });
 };
