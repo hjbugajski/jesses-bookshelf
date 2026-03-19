@@ -16,11 +16,11 @@
       },
       {
         "groupName": "jesses-bookshelf",
-        "elementNamePattern": ["@/"]
+        "elementNamePattern": ["@/**"]
       },
       {
         "groupName": "react",
-        "elementNamePattern": ["react", "react-dom"]
+        "elementNamePattern": ["react", "react-dom", "react-dom/**"]
       }
     ],
     "groups": [
