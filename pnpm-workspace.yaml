@@ -1,6 +1,7 @@
 allowBuilds:
   esbuild: true
   sharp: true
+  simple-git-hooks: true
 minimumReleaseAge: 1440
 overrides:
   # payload 3.85's bundled tsx 4.22.4 breaks the migrate/generate CLI on Node 24

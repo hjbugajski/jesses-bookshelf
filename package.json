@@ -26,7 +26,8 @@
     "lint:check": "oxlint --type-aware",
     "stylelint": "stylelint '**/*.css' --fix --ignore-path .gitignore",
     "stylelint:check": "stylelint '**/*.css' --ignore-path .gitignore",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepare": "simple-git-hooks"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.85.1",
@@ -52,15 +53,31 @@
     "@types/node": "^24.13.2",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
+    "nano-staged": "^1.0.2",
     "oxfmt": "^0.56.0",
     "oxlint": "^1.71.0",
     "oxlint-tsgolint": "^0.23.0",
     "postcss": "^8.5.15",
+    "simple-git-hooks": "^2.13.1",
     "stylelint": "^17.14.0",
     "stylelint-config-clean-order": "^10.0.0",
     "stylelint-config-standard": "^40.0.0",
     "tailwindcss": "^4.3.1",
     "typescript": "^5.9.3"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm exec nano-staged"
+  },
+  "nano-staged": {
+    "{apps,packages}/**/*.{ts,tsx,js,jsx,mjs,cjs}": [
+      "oxlint --fix",
+      "oxfmt"
+    ],
+    "{apps,packages}/**/*.css": [
+      "stylelint --fix",
+      "oxfmt"
+    ],
+    "*.!(ts|tsx|js|jsx|mjs|cjs|css)": "oxfmt --no-error-on-unmatched-pattern"
   },
   "packageManager": "pnpm@11.8.0"
 }
