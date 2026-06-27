@@ -13,11 +13,13 @@ import { Role } from '@/payload/access';
 import { Media } from '@/payload/collections/media';
 import { Pages } from '@/payload/collections/pages';
 import { Users } from '@/payload/collections/users';
+import { getServerSideUrl } from '@/payload/utils/get-server-side-url';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
-const whitelist = [env.SERVER_URL, ...env.DOMAINS.split(' ')];
+const serverUrl = getServerSideUrl();
+const whitelist = [serverUrl];
 
 export default buildConfig({
   admin: {
@@ -102,8 +104,8 @@ export default buildConfig({
     disable: true,
   },
   email: resendAdapter({
-    defaultFromAddress: env.DEFAULT_FROM_ADDRESS,
-    defaultFromName: env.DEFAULT_FROM_NAME,
+    defaultFromAddress: env.RESEND_DEFAULT_FROM_ADDRESS,
+    defaultFromName: env.RESEND_DEFAULT_FROM_NAME,
     apiKey: env.RESEND_API_KEY,
   }),
   plugins: [
@@ -141,7 +143,7 @@ export default buildConfig({
   },
   cors: whitelist,
   csrf: whitelist,
-  serverURL: env.SERVER_URL,
+  serverURL: serverUrl,
   secret: env.PAYLOAD_SECRET,
   sharp,
   typescript: {
