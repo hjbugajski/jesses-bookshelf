@@ -44,7 +44,7 @@
     "payload": "3.85.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "sharp": "^0.34.5",
+    "sharp": "^0.35.0",
     "tailwind-merge": "^3.6.0",
     "zod": "^4.4.3"
   },
@@ -57,7 +57,7 @@
     "oxfmt": "^0.56.0",
     "oxlint": "^1.71.0",
     "oxlint-tsgolint": "^0.23.0",
-    "postcss": "^8.5.15",
+    "postcss": "^8.5.18",
     "simple-git-hooks": "^2.13.1",
     "stylelint": "^17.14.0",
     "stylelint-config-clean-order": "^10.0.0",
