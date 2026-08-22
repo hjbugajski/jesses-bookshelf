@@ -77,8 +77,8 @@ export async function generateStaticParams() {
         params.push({ slug: [slug] });
       }
     }
-  } catch {
-    // Fall back to the root path only.
+  } catch (error) {
+    console.warn('Could not read pages while generating static params', error);
   }
 
   return params;
