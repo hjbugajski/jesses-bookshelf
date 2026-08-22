@@ -11,7 +11,7 @@ import config from '@payload-config';
 import { metadata } from '@/app/(site)/layout';
 import { LivePreviewListener } from '@/components/live-preview-listener';
 import { RichText } from '@/components/rich-text';
-import { pageTag } from '@/payload/utils/cache-tags';
+import { pageTag, pagesTag } from '@/payload/utils/cache-tags';
 
 interface PageProps {
   params: Promise<{ slug: string[] }>;
@@ -22,11 +22,7 @@ const pageTitle = (title: string | undefined, metadata: Metadata) =>
     ? metadata.title
     : `${title} | ${metadata.title as string}`;
 
-const slugFromSegments = (segments: string[] | undefined) => {
-  const slugSegments = segments || ['home'];
-
-  return slugSegments[slugSegments.length - 1];
-};
+const slugFromSegments = (segments: string[] | undefined) => segments?.at(-1) ?? 'home';
 
 const findPage = async ({ draft, slug }: { draft: boolean; slug: string }) => {
   const payload = await getPayload({ config });
@@ -47,18 +43,26 @@ const findPage = async ({ draft, slug }: { draft: boolean; slug: string }) => {
   return result.docs?.[0] || null;
 };
 
-const queryPublishedPage = async (slug: string) => {
+/**
+ * Draft mode forces every cached scope to re-execute and never writes the result to the cache, so
+ * reading `isEnabled` here keeps the page fully static for normal visitors while draft requests
+ * still get an uncached, access-checked read.
+ */
+const queryPage = async (slug: string) => {
   'use cache';
   cacheLife('max');
-  cacheTag(pageTag(slug));
+  cacheTag(pageTag(slug), pagesTag);
 
-  return findPage({ draft: false, slug });
+  const { isEnabled: draft } = await draftMode();
+
+  return { draft, page: await findPage({ draft, slug }) };
 };
 
 export async function generateStaticParams() {
-  // Cache Components requires at least one param, so the root path is always
-  // prerendered even when the database is unreachable or has no pages yet.
-  const params: { slug: string[] | undefined }[] = [{ slug: undefined }];
+  // Cache Components requires at least one param, so the root path is always prerendered even when
+  // the database has no pages yet. An empty segment array is what prerenders `/`; `undefined`
+  // leaves the root to the fallback shell.
+  const params: { slug: string[] }[] = [{ slug: [] }];
 
   try {
     const payload = await getPayload({ config });
@@ -86,9 +90,14 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps) {
   'use cache';
+  cacheLife('max');
 
   const { slug } = await params;
-  const page = await queryPublishedPage(slugFromSegments(slug));
+  const pageSlug = slugFromSegments(slug);
+
+  cacheTag(pageTag(pageSlug), pagesTag);
+
+  const { page } = await queryPage(pageSlug);
 
   return {
     title: pageTitle(page?.title, metadata),
@@ -114,10 +123,15 @@ const PageSkeleton = () => (
 );
 
 const PageContent = async ({ params }: PageProps) => {
-  const [{ slug }, { isEnabled: draft }] = await Promise.all([params, draftMode()]);
-  const page = draft
-    ? await findPage({ draft: true, slug: slugFromSegments(slug) })
-    : await queryPublishedPage(slugFromSegments(slug));
+  'use cache';
+  cacheLife('max');
+
+  const { slug } = await params;
+  const pageSlug = slugFromSegments(slug);
+
+  cacheTag(pageTag(pageSlug), pagesTag);
+
+  const { draft, page } = await queryPage(pageSlug);
 
   if (!page) {
     notFound();
@@ -131,6 +145,8 @@ const PageContent = async ({ params }: PageProps) => {
   );
 };
 
+// The boundary only renders for slugs that were not prerendered; the params listed by
+// generateStaticParams resolve their cached content into the static shell.
 export default function Page({ params }: PageProps) {
   return (
     <Suspense fallback={<PageSkeleton />}>
