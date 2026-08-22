@@ -56,6 +56,10 @@ const queryPublishedPage = async (slug: string) => {
 };
 
 export async function generateStaticParams() {
+  // Cache Components requires at least one param, so the root path is always
+  // prerendered even when the database is unreachable or has no pages yet.
+  const params: { slug: string[] | undefined }[] = [{ slug: undefined }];
+
   try {
     const payload = await getPayload({ config });
     const pages = await payload.find({
@@ -68,10 +72,16 @@ export async function generateStaticParams() {
       },
     });
 
-    return pages.docs.map(({ slug }) => ({ slug: [slug] }));
+    for (const { slug } of pages.docs) {
+      if (slug && slug !== 'home') {
+        params.push({ slug: [slug] });
+      }
+    }
   } catch {
-    return [{ slug: undefined }];
+    // Fall back to the root path only.
   }
+
+  return params;
 }
 
 export async function generateMetadata({ params }: PageProps) {
