@@ -1,7 +1,30 @@
-import type { CollectionConfig } from 'payload';
+import { revalidateTag } from 'next/cache';
+import type {
+  CollectionAfterChangeHook,
+  CollectionAfterDeleteHook,
+  CollectionConfig,
+} from 'payload';
 
 import { Role, hasRole } from '@/payload/access';
 import { addDataUrl } from '@/payload/hooks/add-data-url';
+import { pagesTag } from '@/payload/utils/cache-tags';
+
+// Pages inline media documents into their cached output, so any media change expires all of them.
+const revalidatePagesAfterChange: CollectionAfterChangeHook = ({ doc, req: { context } }) => {
+  if (!context.disableRevalidate) {
+    revalidateTag(pagesTag, { expire: 0 });
+  }
+
+  return doc;
+};
+
+const revalidatePagesAfterDelete: CollectionAfterDeleteHook = ({ doc, req: { context } }) => {
+  if (!context.disableRevalidate) {
+    revalidateTag(pagesTag, { expire: 0 });
+  }
+
+  return doc;
+};
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -19,7 +42,8 @@ export const Media: CollectionConfig = {
     delete: hasRole(Role.Admin),
   },
   hooks: {
-    afterChange: [addDataUrl],
+    afterChange: [addDataUrl, revalidatePagesAfterChange],
+    afterDelete: [revalidatePagesAfterDelete],
   },
   upload: {
     adminThumbnail: 'thumbnail',
