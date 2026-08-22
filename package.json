@@ -72,7 +72,7 @@
   },
   "nano-staged": {
     "*.{ts,tsx,js,jsx,mjs,cjs}": [
-      "oxlint --fix --no-error-on-unmatched-pattern",
+      "oxlint --type-aware --fix --no-error-on-unmatched-pattern",
       "oxfmt"
     ],
     "*.css": [
