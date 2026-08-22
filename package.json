@@ -11,12 +11,15 @@
     "ci": "payload migrate && pnpm build",
     "build": "next build",
     "i:build": "infisical run pnpm build",
+    "build:clean": "rm -rf .next && rm -rf next-env.d.ts && pnpm build",
+    "i:build:clean": "infisical run pnpm build:clean",
     "start": "next start",
     "i:start": "infisical run pnpm start",
     "migrate": "payload migrate",
     "i:migrate": "infisical run pnpm migrate",
     "migrate:create": "payload migrate:create",
     "i:migrate:create": "infisical run pnpm migrate:create",
+    "migrate:clean": "rm -rf src/payload/migrations/* && touch src/payload/migrations/.gitkeep",
     "migrate:dev": "pnpm migrate:clean && pnpm i:migrate:create && pnpm i:migrate",
     "generate:importmap": "infisical run payload generate:importmap",
     "generate:types": "infisical run payload generate:types",
@@ -68,15 +71,18 @@
     "pre-commit": "pnpm exec nano-staged"
   },
   "nano-staged": {
-    "{apps,packages}/**/*.{ts,tsx,js,jsx,mjs,cjs}": [
+    "*.{ts,tsx,js,jsx,mjs,cjs}": [
       "oxlint --fix",
       "oxfmt"
     ],
-    "{apps,packages}/**/*.css": [
+    "*.css": [
       "stylelint --fix",
       "oxfmt"
     ],
-    "*.!(ts|tsx|js|jsx|mjs|cjs|css)": "oxfmt --no-error-on-unmatched-pattern"
+    "*.{json,jsonc,md,yml,yaml}": "oxfmt --no-error-on-unmatched-pattern"
   },
-  "packageManager": "pnpm@11.8.0"
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "pnpm@11.10.0"
 }
