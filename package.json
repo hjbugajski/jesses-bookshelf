@@ -11,12 +11,15 @@
     "ci": "payload migrate && pnpm build",
     "build": "next build",
     "i:build": "infisical run pnpm build",
+    "build:clean": "rm -rf .next && rm -rf next-env.d.ts && pnpm build",
+    "i:build:clean": "infisical run pnpm build:clean",
     "start": "next start",
     "i:start": "infisical run pnpm start",
     "migrate": "payload migrate",
     "i:migrate": "infisical run pnpm migrate",
     "migrate:create": "payload migrate:create",
     "i:migrate:create": "infisical run pnpm migrate:create",
+    "migrate:clean": "rm -rf src/payload/migrations/* && touch src/payload/migrations/.gitkeep",
     "migrate:dev": "pnpm migrate:clean && pnpm i:migrate:create && pnpm i:migrate",
     "generate:importmap": "infisical run payload generate:importmap",
     "generate:types": "infisical run payload generate:types",
@@ -30,54 +33,56 @@
     "prepare": "simple-git-hooks"
   },
   "dependencies": {
-    "@payloadcms/db-postgres": "3.86.0",
-    "@payloadcms/email-resend": "3.86.0",
-    "@payloadcms/live-preview-react": "3.86.0",
-    "@payloadcms/next": "3.86.0",
-    "@payloadcms/richtext-lexical": "3.86.0",
-    "@payloadcms/storage-s3": "3.86.0",
-    "@payloadcms/ui": "3.86.0",
+    "@payloadcms/db-postgres": "3.88.0",
+    "@payloadcms/email-resend": "3.88.0",
+    "@payloadcms/live-preview-react": "3.88.0",
+    "@payloadcms/next": "3.88.0",
+    "@payloadcms/richtext-lexical": "3.88.0",
+    "@payloadcms/storage-s3": "3.88.0",
+    "@payloadcms/ui": "3.88.0",
     "@t3-oss/env-nextjs": "^0.13.11",
     "clsx": "^2.1.1",
-    "iconoir-react": "^7.11.1",
-    "next": "16.2.11",
-    "payload": "3.86.0",
+    "iconoir-react": "^7.12.1",
+    "next": "16.3.2",
+    "payload": "3.88.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "sharp": "^0.34.5",
+    "sharp": "^0.35.3",
     "tailwind-merge": "^3.6.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^24.13.3",
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
     "nano-staged": "^1.0.2",
-    "oxfmt": "^0.56.0",
-    "oxlint": "^1.75.0",
-    "oxlint-tsgolint": "^0.23.0",
-    "postcss": "^8.5.23",
+    "oxfmt": "^0.64.0",
+    "oxlint": "^1.79.0",
+    "oxlint-tsgolint": "^7.0.2001",
     "simple-git-hooks": "^2.13.1",
     "stylelint": "^17.14.1",
     "stylelint-config-clean-order": "^10.0.0",
     "stylelint-config-standard": "^40.0.0",
     "tailwindcss": "^4.3.3",
-    "typescript": "^5.9.3"
+    "typescript": "^7.0.2"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec nano-staged"
   },
   "nano-staged": {
-    "{apps,packages}/**/*.{ts,tsx,js,jsx,mjs,cjs}": [
-      "oxlint --fix",
+    "*.{ts,tsx,js,jsx,mjs,cjs}": [
+      "oxlint --fix --no-error-on-unmatched-pattern",
       "oxfmt"
     ],
-    "{apps,packages}/**/*.css": [
+    "*.css": [
       "stylelint --fix",
       "oxfmt"
     ],
-    "*.!(ts|tsx|js|jsx|mjs|cjs|css)": "oxfmt --no-error-on-unmatched-pattern"
+    "*.{json,jsonc,md,yml,yaml}": "oxfmt --no-error-on-unmatched-pattern"
   },
-  "packageManager": "pnpm@11.8.0"
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "pnpm@11.22.0"
 }
