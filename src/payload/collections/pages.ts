@@ -1,5 +1,5 @@
 import { BlocksFeature, lexicalEditor } from '@payloadcms/richtext-lexical';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import type {
   CollectionAfterChangeHook,
   CollectionAfterDeleteHook,
@@ -11,6 +11,7 @@ import { Role, hasRole, hasRoleOrPublished } from '@/payload/access';
 import { Header } from '@/payload/blocks/header';
 import { Links } from '@/payload/blocks/links';
 import type { PayloadPagesCollection } from '@/payload/payload-types';
+import { pageTag } from '@/payload/utils/cache-tags';
 import { generatePreviewPath } from '@/payload/utils/generate-preview-path';
 import { slugify } from '@/utils/slugify';
 
@@ -34,6 +35,7 @@ const revalidatePageAfterChange: CollectionAfterChangeHook<PayloadPagesCollectio
 
     payload.logger.info(`Revalidating path: ${path}`);
     revalidatePath(path);
+    revalidateTag(pageTag(doc.slug ?? ''), 'max');
   }
 
   if (previousDoc?._status === 'published' && doc._status !== 'published') {
@@ -41,6 +43,7 @@ const revalidatePageAfterChange: CollectionAfterChangeHook<PayloadPagesCollectio
 
     payload.logger.info(`Revalidating previous path: ${oldPath}`);
     revalidatePath(oldPath);
+    revalidateTag(pageTag(previousDoc.slug ?? ''), 'max');
   }
 
   return doc;
@@ -54,6 +57,7 @@ export const revalidatePageAfterDelete: CollectionAfterDeleteHook<PayloadPagesCo
     const path = doc?.slug === 'home' ? '/' : `/${doc?.slug}`;
 
     revalidatePath(path);
+    revalidateTag(pageTag(doc?.slug ?? ''), 'max');
   }
 
   return doc;
