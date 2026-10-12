@@ -33,18 +33,18 @@
     "prepare": "simple-git-hooks"
   },
   "dependencies": {
-    "@payloadcms/db-postgres": "3.90.1",
-    "@payloadcms/email-resend": "3.90.1",
-    "@payloadcms/live-preview-react": "3.90.1",
-    "@payloadcms/next": "3.90.1",
-    "@payloadcms/richtext-lexical": "3.90.1",
-    "@payloadcms/storage-s3": "3.90.1",
-    "@payloadcms/ui": "3.90.1",
+    "@payloadcms/db-postgres": "3.90.2",
+    "@payloadcms/email-resend": "3.90.2",
+    "@payloadcms/live-preview-react": "3.90.2",
+    "@payloadcms/next": "3.90.2",
+    "@payloadcms/richtext-lexical": "3.90.2",
+    "@payloadcms/storage-s3": "3.90.2",
+    "@payloadcms/ui": "3.90.2",
     "@t3-oss/env-nextjs": "^0.13.11",
     "clsx": "^2.1.1",
     "iconoir-react": "^7.12.1",
-    "next": "16.3.5",
-    "payload": "3.90.1",
+    "next": "16.4.0",
+    "payload": "3.90.2",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "sharp": "^0.35.4",
@@ -53,15 +53,15 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",
-    "@types/node": "^24.13.5",
+    "@types/node": "^24.19.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "nano-staged": "^1.0.2",
-    "oxfmt": "^0.68.0",
-    "oxlint": "^1.83.0",
-    "oxlint-tsgolint": "^7.0.2002",
+    "oxfmt": "^0.72.0",
+    "oxlint": "^1.87.0",
+    "oxlint-tsgolint": "^7.0.2004",
     "simple-git-hooks": "^2.14.0",
-    "stylelint": "^17.15.0",
+    "stylelint": "^17.16.0",
     "stylelint-config-clean-order": "^10.0.0",
     "stylelint-config-standard": "^40.0.0",
     "tailwindcss": "^4.3.3",
@@ -73,7 +73,7 @@
   "nano-staged": {
     "*.{ts,tsx,js,jsx,mjs,cjs}": [
       "oxlint --type-aware --fix --no-error-on-unmatched-pattern",
-      "oxfmt"
+      "oxfmt --no-error-on-unmatched-pattern"
     ],
     "*.css": [
       "stylelint --fix",
@@ -84,5 +84,5 @@
   "engines": {
     "node": ">=24"
   },
-  "packageManager": "pnpm@11.22.0"
+  "packageManager": "pnpm@12.11.2"
 }
